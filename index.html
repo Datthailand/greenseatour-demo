@@ -6,486 +6,878 @@ Copy
   <title>GreenSeaTour - Bảng Báo Giá</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --main-bg: #034C36;
-      --dark-bg: #003332;
-      --accent: #FF812B;
-      --accent2: #E3B8B8;
-      --accent3: #E3BB8B;
-      --accent4: #BC430D;
-      --text-light: #F2E0DF;
-      --text-gray: #BDCDCF;
-      --shadow: 0 2px 18px 0 rgba(3,76,54,0.12);
+      --primary: #0f766e;
+      --primary-dark: #0d5a52;
+      --primary-light: #14b8a6;
+      --secondary: #f97316;
+      --accent: #10b981;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-dark: #1e293b;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --text-light: #94a3b8;
+      --border: #e2e8f0;
+      --border-light: #f1f5f9;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      --radius: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: var(--dark-bg);
-      color: var(--text-light);
-      margin: 0;
-      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
     }
+
     .container {
-      max-width: 1200px;
-      margin: 30px auto;
-      background: var(--main-bg);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      padding: 32px 32px 24px 32px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
     }
+
+    /* Header */
+    .header {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+
     .title {
+      font-size: 2.5rem;
+      font-weight: 700;
       text-align: center;
-      font-size: 2.2rem;
-      font-weight: bold;
-      color: #30e18e;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
+
     .subtitle {
       text-align: center;
       font-size: 1.1rem;
-      color: var(--text-gray);
-      margin-bottom: 22px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
     }
+
     .actions {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       justify-content: center;
-      margin-bottom: 18px;
       flex-wrap: wrap;
     }
-    .actions button {
-      background: var(--accent);
-      color: #fff;
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
       border: none;
-      border-radius: 6px;
-      padding: 8px 14px;
-      font-size: 1rem;
+      border-radius: var(--radius);
       font-weight: 500;
+      font-size: 0.95rem;
       cursor: pointer;
-      transition: background 0.2s;
-      box-shadow: 0 2px 8px #0002;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      box-shadow: var(--shadow-sm);
     }
-    .actions button:nth-child(2) { background: var(--accent2); color: var(--dark-bg);}
-    .actions button:nth-child(3) { background: var(--accent3); color: var(--dark-bg);}
-    .actions button:nth-child(4) { background: var(--accent4); }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #ea580c;
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: var(--bg-secondary);
+      color: var(--primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Table Styles */
+    .table-container {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .table-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      background: var(--dark-bg);
-      border-radius: 10px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
       overflow: hidden;
-      margin-bottom: 18px;
-      box-shadow: 0 1px 8px #0001;
+      box-shadow: var(--shadow-sm);
     }
+
     thead {
-      background: var(--main-bg);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     }
-    th, td {
-      padding: 10px 10px;
-      text-align: center;
-      border-bottom: 1px solid #034c36a0;
-      font-size: 1rem;
-    }
+
     th {
-      color: var(--accent);
-      font-weight: bold;
-      background: #003332e0;
-    }
-    td {
-      color: var(--text-gray);
-      background: #003332d0;
-    }
-    tr:last-child td { border-bottom: none; }
-
-    .add-btn {
-      background: var(--accent2);
-      color: var(--dark-bg);
-      border-radius: 8px;
-      border: none;
-      padding: 5px 12px;
-      margin-left: 6px;
-      font-weight: 500;
-      cursor: pointer;
-      font-size: 0.97rem;
-      transition: background 0.2s;
-    }
-
-    .remove-btn {
-      background: #f44336;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 3px 8px;
+      padding: 16px 12px;
+      text-align: center;
+      color: white;
+      font-weight: 600;
       font-size: 0.9rem;
-      cursor: pointer;
-      transition: background 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .remove-btn:hover {
-      background: #d32f2f;
+    td {
+      padding: 14px 12px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.95rem;
+      transition: background-color 0.2s ease;
     }
 
-    .summary-row {
-      background: var(--main-bg) !important;
-      color: var(--accent) !important;
-      font-weight: bold;
+    tr:hover td {
+      background: #f8fafc;
     }
 
-    .usd-row { color: #30e18e; font-size: 1.1em; }
-    .usd-row th, .usd-row td { background: #034C36; }
-
-    .section-title {
-      color: var(--accent);
-      font-size: 1.1rem;
-      margin: 24px 0 10px 0;
-      font-weight: bold;
-      letter-spacing: 1px;
+    tr:last-child td {
+      border-bottom: none;
     }
 
-    .settings-panel {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-    .card {
-      background: #003332;
-      border-radius: 10px;
-      padding: 16px;
-      min-width: 260px;
-      flex: 1 0 260px;
-      box-shadow: 0 1px 8px #0001;
-      color: var(--text-gray);
-    }
-    .card label {
-      display: block;
-      font-size: 0.98em;
-      margin-bottom: 4px;
-      color: var(--accent3);
-    }
-    .card input, .card select {
-      width: 100%;
-      padding: 6px 8px;
-      border-radius: 5px;
-      border: 1px solid #bdcdcf55;
-      margin-bottom: 10px;
-      margin-top: 2px;
-      background: #00221d;
-      color: var(--text-light);
-      font-size: 1em;
-    }
-    .card .chip {
-      background: var(--accent);
-      color: #fff;
-      border-radius: 8px;
-      padding: 2px 10px;
-      margin-right: 7px;
-      display: inline-block;
-      font-size: 0.96em;
-    }
-    .export-btn {
-      background: #30e18e;
-      color: #003332;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 32px;
-      font-size: 1.05em;
-      margin-top: 18px;
-      float: right;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .export-btn:hover { background: #23a86d; }
-    @media (max-width: 900px) {
-      .settings-panel { flex-direction: column; }
-      .container { padding: 10px; }
-    }
-
-    /* Popup */
-    .popup-outer {
-      position: fixed; z-index: 9999;
-      left: 0; top: 0; right: 0; bottom: 0;
-      background: #0008; display: flex; align-items: center; justify-content: center;
-    }
-    .popup-inner {
-      background: #fff;
-      color: #003332;
-      border-radius: 14px;
-      padding: 32px 30px;
-      min-width: 320px;
-      max-width: 95vw;
-      box-shadow: 0 6px 40px #0004;
-      max-height: 80vh;
-      overflow-y: auto;
-      text-align: left;
-    }
-    .popup-inner h3 {
-      margin-top: 0; color: var(--accent);
-      font-size: 1.3em;
-    }
-    .popup-inner ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 16px 0;
-    }
-    .popup-inner li {
-      padding: 8px 0;
-      border-bottom: 1px solid #e3bb8b44;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.05em;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .popup-inner li:hover {
-      background: #f0f0f0;
-    }
-    .popup-inner li:last-child { border-bottom: none; }
-    .popup-inner button {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 18px;
-      font-size: 1em;
-      margin-top: 8px;
-      cursor: pointer;
-      float: right;
+    /* Day headers */
+    .day-header {
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, #f1f5f9 100%) !important;
+      font-weight: 600 !important;
+      color: var(--primary) !important;
+      text-align: left !important;
+      padding: 16px !important;
     }
 
     /* Editable cells */
     .editable-cell {
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.2s ease;
+      position: relative;
     }
+
     .editable-cell:hover {
-      background: #045a42 !important;
+      background: #e0f2fe !important;
+      color: var(--primary);
     }
+
     .editable-cell input {
       width: 100%;
       background: transparent;
       border: none;
-      color: var(--text-light);
+      color: inherit;
       text-align: center;
-      font-size: 1rem;
+      font-size: inherit;
+      font-family: inherit;
+      outline: none;
     }
 
-    /* Form styles */
-    .form-group {
-      margin-bottom: 15px;
+    /* Summary rows */
+    .summary-row {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%) !important;
+      font-weight: 600 !important;
+      color: var(--success) !important;
     }
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      color: var(--accent3);
+
+    .usd-row {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+      font-weight: 600 !important;
+      color: var(--warning) !important;
     }
-    .form-group input, .form-group select {
-      width: 100%;
-      padding: 8px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-    }
-    .form-actions {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      margin-top: 20px;
-    }
-    .btn {
-      padding: 8px 16px;
+
+    /* Buttons */
+    .add-btn {
+      background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+      color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: var(--radius);
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      font-weight: 500;
       cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .add-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .remove-btn {
+      background: var(--error);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .remove-btn:hover {
+      background: #dc2626;
+      transform: translateY(-1px);
+    }
+
+    .add-day-btn {
+      display: block;
+      margin: 24px auto;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      border: none;
+      border-radius: var(--radius-lg);
+      padding: 16px 32px;
       font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-md);
     }
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
+
+    .add-day-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
     }
-    .btn-secondary {
-      background: #ccc;
-      color: #333;
+
+    /* Price table */
+    .price-table {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* Settings panel */
+    .settings-panel {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      background: var(--bg-secondary);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgb(15 118 110 / 0.1);
+    }
+
+    .chip {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+
+    /* Export button */
+    .export-btn {
+      background: linear-gradient(135deg, var(--success) 0%, #16a34a 100%);
+      color: white;
+      border: none;
+      border-radius: var(--radius-lg);
+      padding: 16px 32px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-md);
+      float: right;
+    }
+
+    .export-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+
+    /* Popup styles */
+    .popup-outer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .popup-inner {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      max-width: 90vw;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid var(--border);
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .popup-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    /* Category tabs */
+    .category-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .category-tab {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      color: var(--text-secondary);
+    }
+
+    .category-tab:hover {
+      background: #f8fafc;
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .category-tab.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    /* Item list */
+    .item-list {
+      list-style: none;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .item-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: var(--bg-secondary);
+    }
+
+    .item-list li:hover {
+      background: #f8fafc;
+      border-color: var(--primary);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .item-icon {
+      font-size: 1.2rem;
+      color: var(--primary);
+      min-width: 24px;
+    }
+
+    .item-name {
+      flex: 1;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .item-price {
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    /* Notes */
+    .notes {
+      background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 100%);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin: 24px 0;
+      border-left: 4px solid var(--warning);
+    }
+
+    .notes strong {
+      color: var(--secondary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 16px;
+      }
+      
+      .header {
+        padding: 24px 20px;
+      }
+      
+      .title {
+        font-size: 2rem;
+      }
+      
+      .table-container {
+        padding: 16px;
+        overflow-x: auto;
+      }
+      
+      table {
+        min-width: 800px;
+      }
+      
+      .settings-panel {
+        grid-template-columns: 1fr;
+      }
+      
+      .popup-inner {
+        margin: 20px;
+        padding: 24px;
+      }
+      
+      .category-tabs {
+        justify-content: flex-start;
+      }
+    }
+
+    /* Loading states */
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Success states */
+    .success-flash {
+      animation: successFlash 0.6s ease;
+    }
+
+    @keyframes successFlash {
+      0% { background: var(--success); }
+      100% { background: transparent; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="title">Green<span style="color:#30e18e">Sea</span>Tour</div>
-    <div class="subtitle">Bảng Báo Giá: "Hồ Chí Minh - Mũi Né 3 ngày 2 đêm"</div>
-    <div class="actions">
-      <button>Tiếp Tour Mới</button>
-      <button>Nhập từ Excel</button>
-      <button>Tải Tour LÊSON</button>
-      <button>Lưu Tour LÊSON</button>
+    <!-- Header -->
+    <div class="header">
+      <h1 class="title">
+        <i class="fas fa-ship"></i>
+        GreenSeaTour
+      </h1>
+      <p class="subtitle">Bảng Báo Giá Chương Trình Du Lịch</p>
+      <div class="actions">
+        <button class="btn btn-primary">
+          <i class="fas fa-plus"></i>
+          Tạo Tour Mới
+        </button>
+        <button class="btn btn-outline">
+          <i class="fas fa-file-excel"></i>
+          Nhập từ Excel
+        </button>
+        <button class="btn btn-outline">
+          <i class="fas fa-download"></i>
+          Tải Tour LÊSON
+        </button>
+        <button class="btn btn-secondary">
+          <i class="fas fa-save"></i>
+          Lưu Tour LÊSON
+        </button>
+      </div>
     </div>
 
-    <table id="mainTable">
-      <thead>
-        <tr>
-          <th>DANH MỤC</th>
-          <th>8 KHÁCH</th>
-          <th>10 KHÁCH</th>
-          <th>15 KHÁCH</th>
-          <th>20 KHÁCH</th>
-          <th>25 KHÁCH</th>
-          <th>30 KHÁCH</th>
-          <th>35 KHÁCH</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="text-align:left;"><b>Ngày 1</b></td>
-          <td colspan="7"></td>
-          <td><button class="add-btn" data-type="other">+ Thêm hạng mục</button></td>
-        </tr>
-        <tr data-price="1312500,1050000,766667,650000,520000,433333,371429">
-          <td style="text-align:left;">xe HCM - Mũi Né 3 ngày</td>
-          <td class="editable-cell">1,312,500</td>
-          <td class="editable-cell">1,050,000</td>
-          <td class="editable-cell">766,667</td>
-          <td class="editable-cell">650,000</td>
-          <td class="editable-cell">520,000</td>
-          <td class="editable-cell">433,333</td>
-          <td class="editable-cell">371,429</td>
-          <td><button class="remove-btn">Xóa</button></td>
-        </tr>
-        <tr data-price="281250,225000,150000,112500,90000,84848,75000">
-          <td style="text-align:left;">hdv</td>
-          <td class="editable-cell">281,250</td>
-          <td class="editable-cell">225,000</td>
-          <td class="editable-cell">150,000</td>
-          <td class="editable-cell">112,500</td>
-          <td class="editable-cell">90,000</td>
-          <td class="editable-cell">84,848</td>
-          <td class="editable-cell">75,000</td>
-          <td><button class="remove-btn">Xóa</button></td>
-        </tr>
-        <tr data-price="15000,15000,15000,15000,15000,15000,15000">
-          <td style="text-align:left;">nước uống</td>
-          <td class="editable-cell">15,000</td>
-          <td class="editable-cell">15,000</td>
-          <td class="editable-cell">15,000</td>
-          <td class="editable-cell">15,000</td>
-          <td class="editable-cell">15,000</td>
-          <td class="editable-cell">15,000</td>
-          <td class="editable-cell">15,000</td>
-          <td><button class="remove-btn">Xóa</button></td>
-        </tr>
-        <tr>
-          <td style="text-align:left;"><b>Bữa ăn</b></td>
-          <td colspan="7"></td>
-          <td><button class="add-btn" data-type="meal">+ Thêm hạng mục</button></td>
-        </tr>
-        <tr data-price="150000,150000,150000,150000,150000,150000,150000">
-          <td style="text-align:left;">ăn trưa Cao Phát</td>
-          <td class="editable-cell">150,000</td>
-          <td class="editable-cell">150,000</td>
-          <td class="editable-cell">150,000</td>
-          <td class="editable-cell">150,000</td>
-          <td class="editable-cell">150,000</td>
-          <td class="editable-cell">150,000</td>
-          <td class="editable-cell">150,000</td>
-          <td><button class="remove-btn">Xóa</button></td>
-        </tr>
-        <tr class="summary-row">
-          <td style="text-align:left;">Tổng (VND)</td>
-          <td>1,758,750</td>
-          <td>1,440,000</td>
-          <td>1,081,667</td>
-          <td>927,500</td>
-          <td>775,000</td>
-          <td>683,181</td>
-          <td>611,429</td>
-          <td></td>
-        </tr>
-        <tr class="usd-row">
-          <td style="text-align:left;">Báo giá (USD)</td>
-          <td>$69</td>
-          <td>$56</td>
-          <td>$42</td>
-          <td>$36</td>
-          <td>$30</td>
-          <td>$27</td>
-          <td>$24</td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Main Table -->
+    <div class="table-container">
+      <div class="table-header">
+        <h2 class="table-title">
+          <i class="fas fa-calendar-alt"></i>
+          Chi Tiết Chương Trình: "Hồ Chí Minh - Mũi Né 3 ngày 2 đêm"
+        </h2>
+      </div>
+      
+      <table id="mainTable">
+        <thead>
+          <tr>
+            <th><i class="fas fa-list"></i> DANH MỤC</th>
+            <th><i class="fas fa-users"></i> 8 KHÁCH</th>
+            <th><i class="fas fa-users"></i> 10 KHÁCH</th>
+            <th><i class="fas fa-users"></i> 15 KHÁCH</th>
+            <th><i class="fas fa-users"></i> 20 KHÁCH</th>
+            <th><i class="fas fa-users"></i> 25 KHÁCH</th>
+            <th><i class="fas fa-users"></i> 30 KHÁCH</th>
+            <th><i class="fas fa-users"></i> 35 KHÁCH</th>
+            <th><i class="fas fa-cog"></i></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="day-header">
+              <i class="fas fa-calendar-day"></i>
+              <strong>Ngày 1</strong>
+            </td>
+            <td colspan="7"></td>
+            <td><button class="add-btn" data-type="other"><i class="fas fa-plus"></i> Thêm hạng mục</button></td>
+          </tr>
+          <tr data-price="1312500,1050000,766667,650000,520000,433333,371429">
+            <td style="text-align:left;">
+              <i class="fas fa-bus" style="color: var(--primary); margin-right: 8px;"></i>
+              xe HCM - Mũi Né 3 ngày
+            </td>
+            <td class="editable-cell">1,312,500</td>
+            <td class="editable-cell">1,050,000</td>
+            <td class="editable-cell">766,667</td>
+            <td class="editable-cell">650,000</td>
+            <td class="editable-cell">520,000</td>
+            <td class="editable-cell">433,333</td>
+            <td class="editable-cell">371,429</td>
+            <td><button class="remove-btn"><i class="fas fa-trash"></i></button></td>
+          </tr>
+          <tr data-price="281250,225000,150000,112500,90000,84848,75000">
+            <td style="text-align:left;">
+              <i class="fas fa-user-tie" style="color: var(--primary); margin-right: 8px;"></i>
+              hdv
+            </td>
+            <td class="editable-cell">281,250</td>
+            <td class="editable-cell">225,000</td>
+            <td class="editable-cell">150,000</td>
+            <td class="editable-cell">112,500</td>
+            <td class="editable-cell">90,000</td>
+            <td class="editable-cell">84,848</td>
+            <td class="editable-cell">75,000</td>
+            <td><button class="remove-btn"><i class="fas fa-trash"></i></button></td>
+          </tr>
+          <tr data-price="15000,15000,15000,15000,15000,15000,15000">
+            <td style="text-align:left;">
+              <i class="fas fa-tint" style="color: var(--primary); margin-right: 8px;"></i>
+              nước uống
+            </td>
+            <td class="editable-cell">15,000</td>
+            <td class="editable-cell">15,000</td>
+            <td class="editable-cell">15,000</td>
+            <td class="editable-cell">15,000</td>
+            <td class="editable-cell">15,000</td>
+            <td class="editable-cell">15,000</td>
+            <td class="editable-cell">15,000</td>
+            <td><button class="remove-btn"><i class="fas fa-trash"></i></button></td>
+          </tr>
+          <tr>
+            <td class="day-header">
+              <i class="fas fa-utensils"></i>
+              <strong>Bữa ăn</strong>
+            </td>
+            <td colspan="7"></td>
+            <td><button class="add-btn" data-type="meal"><i class="fas fa-plus"></i> Thêm hạng mục</button></td>
+          </tr>
+          <tr data-price="150000,150000,150000,150000,150000,150000,150000">
+            <td style="text-align:left;">
+              <i class="fas fa-utensils" style="color: var(--secondary); margin-right: 8px;"></i>
+              ăn trưa Cao Phát
+            </td>
+            <td class="editable-cell">150,000</td>
+            <td class="editable-cell">150,000</td>
+            <td class="editable-cell">150,000</td>
+            <td class="editable-cell">150,000</td>
+            <td class="editable-cell">150,000</td>
+            <td class="editable-cell">150,000</td>
+            <td class="editable-cell">150,000</td>
+            <td><button class="remove-btn"><i class="fas fa-trash"></i></button></td>
+          </tr>
+          <tr class="summary-row">
+            <td style="text-align:left;">
+              <i class="fas fa-calculator"></i>
+              <strong>Tổng (VND)</strong>
+            </td>
+            <td>1,758,750</td>
+            <td>1,440,000</td>
+            <td>1,081,667</td>
+            <td>927,500</td>
+            <td>775,000</td>
+            <td>683,181</td>
+            <td>611,429</td>
+            <td></td>
+          </tr>
+          <tr class="usd-row">
+            <td style="text-align:left;">
+              <i class="fas fa-dollar-sign"></i>
+              <strong>Báo giá (USD)</strong>
+            </td>
+            <td>$69</td>
+            <td>$56</td>
+            <td>$42</td>
+            <td>$36</td>
+            <td>$30</td>
+            <td>$27</td>
+            <td>$24</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
 
-    <button class="add-btn" id="addDayBtn" style="display:block;margin:0 auto 18px auto;">+ Thêm Ngày Mới</button>
-
-    <div class="section-title">Giá Tour Theo Số Lượng Khách (03/09-30/11/2025)</div>
-    <table id="priceTable">
-      <thead>
-        <tr>
-          <th>THỜI GIAN</th>
-          <th>8-9 KHÁCH</th>
-          <th>10-14 KHÁCH</th>
-          <th>15-19 KHÁCH</th>
-          <th>20-24 KHÁCH</th>
-          <th>25-29 KHÁCH</th>
-          <th>30-34 KHÁCH</th>
-          <th>NGỦ ĐƠN</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>03/09-30/11/2025</td>
-          <td>$69</td>
-          <td>$56</td>
-          <td>$42</td>
-          <td>$36</td>
-          <td>$30</td>
-          <td>$27</td>
-          <td>+ $25</td>
-        </tr>
-      </tbody>
-    </table>
-    <div style="margin:10px 0 24px 0; color: var(--accent2);">
-      <b>Ghi chú:</b> Không áp dụng đoàn lẻ/không bao gồm lễ tết. <br>
-      <span style="color:var(--accent3);">Giá báo chưa bao gồm VAT. Số lượng khách lẻ: +100k/người, Ngủ đơn: +100k</span>
+      <button class="add-day-btn" id="addDayBtn">
+        <i class="fas fa-plus-circle"></i>
+        Thêm Ngày Mới
+      </button>
     </div>
 
+    <!-- Price Table -->
+    <div class="price-table">
+      <h2 class="section-title">
+        <i class="fas fa-chart-line"></i>
+        Giá Tour Theo Số Lượng Khách (03/09-30/11/2025)
+      </h2>
+      
+      <table id="priceTable">
+        <thead>
+          <tr>
+            <th><i class="fas fa-calendar"></i> THỜI GIAN</th>
+            <th>8-9 KHÁCH</th>
+            <th>10-14 KHÁCH</th>
+            <th>15-19 KHÁCH</th>
+            <th>20-24 KHÁCH</th>
+            <th>25-29 KHÁCH</th>
+            <th>30-34 KHÁCH</th>
+            <th><i class="fas fa-bed"></i> NGỦ ĐƠN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>03/09-30/11/2025</td>
+            <td>$69</td>
+            <td>$56</td>
+            <td>$42</td>
+            <td>$36</td>
+            <td>$30</td>
+            <td>$27</td>
+            <td>+ $25</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div class="notes">
+        <p><strong>Ghi chú:</strong> Không áp dụng đoàn lẻ/không bao gồm lễ tết.</p>
+        <p><strong>Lưu ý:</strong> Giá báo chưa bao gồm VAT. Số lượng khách lẻ: +100k/người, Ngủ đơn: +100k</p>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
     <div class="settings-panel">
       <div class="card">
-        <label for="rate">Tỷ giá USD/VND</label>
-        <input type="number" id="rate" value="25500">
-        <label for="soluong">Số khách tùy chỉnh</label>
-        <input type="number" id="soluong" value="10">
+        <h3 class="card-title">
+          <i class="fas fa-exchange-alt"></i>
+          Cài Đặt Tỷ Giá
+        </h3>
+        <div class="form-group">
+          <label class="form-label" for="rate">Tỷ giá USD/VND</label>
+          <input type="number" id="rate" class="form-input" value="25500">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="soluong">Số khách tùy chỉnh</label>
+          <input type="number" id="soluong" class="form-input" value="10">
+        </div>
       </div>
+      
       <div class="card">
-        <label>Cài đặt lợi nhuận</label>
-        <div><span class="chip">8-9 khách</span> <input type="number" value="25"></div>
-        <div><span class="chip">10-14 khách</span> <input type="number" value="20"></div>
-        <div><span class="chip">15-19 khách</span> <input type="number" value="17"></div>
-        <div><span class="chip">20-34 khách</span> <input type="number" value="15"></div>
+        <h3 class="card-title">
+          <i class="fas fa-percentage"></i>
+          Cài Đặt Lợi Nhuận
+        </h3>
+        <div class="form-group">
+          <span class="chip">8-9 khách</span>
+          <input type="number" class="form-input" value="25" style="display: inline-block; width: auto; margin-left: 8px;">%
+        </div>
+        <div class="form-group">
+          <span class="chip">10-14 khách</span>
+          <input type="number" class="form-input" value="20" style="display: inline-block; width: auto; margin-left: 8px;">%
+        </div>
+        <div class="form-group">
+          <span class="chip">15-19 khách</span>
+          <input type="number" class="form-input" value="17" style="display: inline-block; width: auto; margin-left: 8px;">%
+        </div>
+        <div class="form-group">
+          <span class="chip">20-34 khách</span>
+          <input type="number" class="form-input" value="15" style="display: inline-block; width: auto; margin-left: 8px;">%
+        </div>
       </div>
+      
       <div class="card">
-        <label>Chi phí phát sinh trưởng đoàn</label>
-        <div>Phụ thu Ngủ đơn <b>(Thêm 1 TL)</b></div>
-        <input type="text" value="Thêm">
-        <div>Thêm Trưởng đoàn mới <b>(Thêm 1 TL)</b></div>
-        <input type="text" value="Thêm">
-        <div>Thêm 1 TL &amp; 1 Ngủ đơn</div>
-        <input type="text" value="Thêm">
+        <h3 class="card-title">
+          <i class="fas fa-user-plus"></i>
+          Chi Phí Phát Sinh
+        </h3>
+        <div class="form-group">
+          <label class="form-label">Phụ thu Ngủ đơn (Thêm 1 TL)</label>
+          <input type="text" class="form-input" value="100,000 VND">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Thêm Trưởng đoàn mới (Thêm 1 TL)</label>
+          <input type="text" class="form-input" value="150,000 VND">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Thêm 1 TL & 1 Ngủ đơn</label>
+          <input type="text" class="form-input" value="250,000 VND">
+        </div>
       </div>
     </div>
 
-    <button class="export-btn">Xuất Excel</button>
+    <button class="export-btn">
+      <i class="fas fa-file-excel"></i>
+      Xuất Excel
+    </button>
     <div style="clear:both;"></div>
   </div>
 
   <script>
     let dayCounter = 1;
+    let allItems = [];
+    let currentCategory = 'Bữa ăn';
 
-    async function fetchMeals() {
+    async function fetchAllItems() {
       try {
         const url = "https://docs.google.com/spreadsheets/d/1RU3jggSUKWbi45HYU2UR3S3yBjdpdArK5obL6257lgY/gviz/tq?tqx=out:json&sheet=SuggestedItems";
         let response = await fetch(url);
@@ -499,40 +891,29 @@ Copy
             });
             return obj;
         });
-        let meals = data.filter(row => row.Type && row.Type.toLowerCase().includes("bữa ăn") && row.Name);
-        console.log("Meals loaded:", meals);
-        return meals;
+        allItems = data.filter(row => row.Type && row.Name);
+        console.log("All items loaded:", allItems);
+        return allItems;
       } catch (error) {
-        console.error("Error fetching meals:", error);
+        console.error("Error fetching items:", error);
         return [];
       }
     }
 
-    function addMealRowToTable(meal) {
+    function getItemsByCategory(category) {
+      return allItems.filter(item => item.Type && item.Type.toLowerCase().includes(category.toLowerCase()));
+    }
+
+    function addItemToTable(item) {
       let table = document.querySelector('#mainTable tbody');
       if (!table) return;
       
-      let insertIndex = -1;
-      let rows = table.querySelectorAll('tr');
-      
-      // Tìm dòng "Bữa ăn" để insert sau nó
-      for (let i = 0; i < rows.length; i++) {
-          let firstCell = rows[i].querySelector('td');
-          if (firstCell && firstCell.innerHTML.includes('Bữa ăn')) {
-              insertIndex = i + 1;
-              break;
-          }
-      }
-      
-      if (insertIndex === -1) return;
-      
-      // Tạo dòng mới với giá trị cho từng cột
-      let price = parseInt(meal.Price_VND);
+      let price = parseInt(item.Price_VND);
       let tr = document.createElement('tr');
       tr.setAttribute('data-price', `${price},${price},${price},${price},${price},${price},${price}`);
       tr.innerHTML = `
         <td style="text-align:left;">
-          <i class="${meal.Icon}" style="color:#FF812B; margin-right: 8px;"></i>${meal.Name}
+          <i class="${item.Icon}" style="color: var(--secondary); margin-right: 8px;"></i>${item.Name}
         </td>
         <td class="editable-cell">${price.toLocaleString()}</td>
         <td class="editable-cell">${price.toLocaleString()}</td>
@@ -541,45 +922,7 @@ Copy
         <td class="editable-cell">${price.toLocaleString()}</td>
         <td class="editable-cell">${price.toLocaleString()}</td>
         <td class="editable-cell">${price.toLocaleString()}</td>
-        <td><button class="remove-btn">Xóa</button></td>
-      `;
-      
-      // Insert vào vị trí đúng
-      if (rows[insertIndex]) {
-          table.insertBefore(tr, rows[insertIndex]);
-      } else {
-          table.appendChild(tr);
-      }
-      
-      // Thêm event listener cho nút xóa
-      tr.querySelector('.remove-btn').addEventListener('click', function() {
-          tr.remove();
-          updateTotal();
-      });
-      
-      // Thêm event listener cho các ô có thể chỉnh sửa
-      addEditableListeners(tr);
-      
-      // Cập nhật tổng
-      updateTotal();
-    }
-
-    function addCustomItem(itemName, prices) {
-      let table = document.querySelector('#mainTable tbody');
-      if (!table) return;
-      
-      let tr = document.createElement('tr');
-      tr.setAttribute('data-price', prices.join(','));
-      tr.innerHTML = `
-        <td style="text-align:left;">${itemName}</td>
-        <td class="editable-cell">${parseInt(prices[0]).toLocaleString()}</td>
-        <td class="editable-cell">${parseInt(prices[1]).toLocaleString()}</td>
-        <td class="editable-cell">${parseInt(prices[2]).toLocaleString()}</td>
-        <td class="editable-cell">${parseInt(prices[3]).toLocaleString()}</td>
-        <td class="editable-cell">${parseInt(prices[4]).toLocaleString()}</td>
-        <td class="editable-cell">${parseInt(prices[5]).toLocaleString()}</td>
-        <td class="editable-cell">${parseInt(prices[6]).toLocaleString()}</td>
-        <td><button class="remove-btn">Xóa</button></td>
+        <td><button class="remove-btn"><i class="fas fa-trash"></i></button></td>
       `;
       
       // Insert trước dòng tổng
@@ -590,10 +933,60 @@ Copy
           table.appendChild(tr);
       }
       
+      // Add success animation
+      tr.classList.add('success-flash');
+      
       // Thêm event listeners
       tr.querySelector('.remove-btn').addEventListener('click', function() {
-          tr.remove();
-          updateTotal();
+          tr.style.animation = 'fadeOut 0.3s ease';
+          setTimeout(() => {
+              tr.remove();
+              updateTotal();
+          }, 300);
+      });
+      
+      addEditableListeners(tr);
+      updateTotal();
+    }
+
+    function addCustomItem(itemName, prices) {
+      let table = document.querySelector('#mainTable tbody');
+      if (!table) return;
+      
+      let tr = document.createElement('tr');
+      tr.setAttribute('data-price', prices.join(','));
+      tr.innerHTML = `
+        <td style="text-align:left;">
+          <i class="fas fa-cog" style="color: var(--primary); margin-right: 8px;"></i>${itemName}
+        </td>
+        <td class="editable-cell">${parseInt(prices[0]).toLocaleString()}</td>
+        <td class="editable-cell">${parseInt(prices[1]).toLocaleString()}</td>
+        <td class="editable-cell">${parseInt(prices[2]).toLocaleString()}</td>
+        <td class="editable-cell">${parseInt(prices[3]).toLocaleString()}</td>
+        <td class="editable-cell">${parseInt(prices[4]).toLocaleString()}</td>
+        <td class="editable-cell">${parseInt(prices[5]).toLocaleString()}</td>
+        <td class="editable-cell">${parseInt(prices[6]).toLocaleString()}</td>
+        <td><button class="remove-btn"><i class="fas fa-trash"></i></button></td>
+      `;
+      
+      // Insert trước dòng tổng
+      let summaryRow = table.querySelector('.summary-row');
+      if (summaryRow) {
+          table.insertBefore(tr, summaryRow);
+      } else {
+          table.appendChild(tr);
+      }
+      
+      // Add success animation
+      tr.classList.add('success-flash');
+      
+      // Thêm event listeners
+      tr.querySelector('.remove-btn').addEventListener('click', function() {
+          tr.style.animation = 'fadeOut 0.3s ease';
+          setTimeout(() => {
+              tr.remove();
+              updateTotal();
+          }, 300);
       });
       
       addEditableListeners(tr);
@@ -609,15 +1002,14 @@ Copy
               let input = document.createElement('input');
               input.type = 'number';
               input.value = currentValue;
-              input.style.width = '100%';
-              input.style.background = 'transparent';
-              input.style.border = 'none';
-              input.style.color = 'var(--text-light)';
-              input.style.textAlign = 'center';
+              input.className = 'form-input';
+              input.style.margin = '0';
+              input.style.padding = '8px';
               
               cell.innerHTML = '';
               cell.appendChild(input);
               input.focus();
+              input.select();
               
               function saveValue() {
                   let newValue = parseInt(input.value) || 0;
@@ -648,9 +1040,12 @@ Copy
       
       let tr = document.createElement('tr');
       tr.innerHTML = `
-        <td style="text-align:left;"><b>Ngày ${dayCounter}</b></td>
+        <td class="day-header">
+          <i class="fas fa-calendar-day"></i>
+          <strong>Ngày ${dayCounter}</strong>
+        </td>
         <td colspan="7"></td>
-        <td><button class="add-btn" data-type="other">+ Thêm hạng mục</button></td>
+        <td><button class="add-btn" data-type="other"><i class="fas fa-plus"></i> Thêm hạng mục</button></td>
       `;
       
       // Insert trước dòng tổng
@@ -661,68 +1056,187 @@ Copy
           table.appendChild(tr);
       }
       
+      // Add success animation
+      tr.classList.add('success-flash');
+      
       // Thêm event listener cho nút thêm hạng mục
       tr.querySelector('.add-btn').addEventListener('click', function() {
-          showAddItemPopup();
+          showCategoryPopup();
       });
     }
 
-    function showAddItemPopup() {
+    function showCategoryPopup() {
       let div = document.createElement('div');
       div.className = "popup-outer";
       div.innerHTML = `
-        <div class="popup-inner">
-          <h3>Thêm hạng mục mới</h3>
-          <div class="form-group">
-            <label>Tên hạng mục:</label>
-            <input type="text" id="itemName" placeholder="Nhập tên hạng mục">
+        <div class="popup-inner" style="max-width: 900px;">
+          <h3 class="popup-title">
+            <i class="fas fa-plus-circle"></i>
+            Thêm hạng mục vào tour
+          </h3>
+          <div class="category-tabs">
+            <button class="category-tab active" data-category="Khách sạn">
+              <i class="fas fa-hotel"></i> Khách sạn
+            </button>
+            <button class="category-tab" data-category="Bữa ăn">
+              <i class="fas fa-utensils"></i> Bữa ăn
+            </button>
+            <button class="category-tab" data-category="Vé & Hoạt động">
+              <i class="fas fa-ticket-alt"></i> Vé & Hoạt động
+            </button>
+            <button class="category-tab" data-category="Chi phí khác">
+              <i class="fas fa-money-bill"></i> Chi phí khác
+            </button>
+            <button class="category-tab" data-category="Tùy chỉnh">
+              <i class="fas fa-cog"></i> Tùy chỉnh
+            </button>
           </div>
-          <div class="form-group">
-            <label>Giá cho 8 khách:</label>
-            <input type="number" id="price8" placeholder="0">
+          <div id="categoryContent">
+            <div style="text-align: center; padding: 40px;">
+              <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+              <p style="margin-top: 16px;">Đang tải...</p>
+            </div>
           </div>
-          <div class="form-group">
-            <label>Giá cho 10 khách:</label>
-            <input type="number" id="price10" placeholder="0">
-          </div>
-          <div class="form-group">
-            <label>Giá cho 15 khách:</label>
-            <input type="number" id="price15" placeholder="0">
-          </div>
-          <div class="form-group">
-            <label>Giá cho 20 khách:</label>
-            <input type="number" id="price20" placeholder="0">
-          </div>
-          <div class="form-group">
-            <label>Giá cho 25 khách:</label>
-            <input type="number" id="price25" placeholder="0">
-          </div>
-          <div class="form-group">
-            <label>Giá cho 30 khách:</label>
-            <input type="number" id="price30" placeholder="0">
-          </div>
-          <div class="form-group">
-            <label>Giá cho 35 khách:</label>
-            <input type="number" id="price35" placeholder="0">
-          </div>
-          <div class="form-actions">
-            <button class="btn btn-secondary" onclick="closePopup()">Hủy</button>
-            <button class="btn btn-primary" onclick="addNewItem()">Thêm</button>
+          <div style="text-align: center; margin-top: 24px;">
+            <button class="btn btn-outline" onclick="closePopup()">
+              <i class="fas fa-times"></i> Đóng
+            </button>
           </div>
         </div>`;
       document.body.appendChild(div);
+      
+      // Add event listeners cho tabs
+      div.querySelectorAll('.category-tab').forEach(tab => {
+          tab.addEventListener('click', function() {
+              // Remove active class from all tabs
+              div.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+              // Add active class to clicked tab
+              tab.classList.add('active');
+              
+              let category = tab.getAttribute('data-category');
+              currentCategory = category;
+              loadCategoryContent(category);
+          });
+      });
+      
+      // Load default category
+      loadCategoryContent('Khách sạn');
     }
 
-    function addNewItem() {
-      let itemName = document.getElementById('itemName').value;
+    async function loadCategoryContent(category) {
+      let contentDiv = document.getElementById('categoryContent');
+      if (!contentDiv) return;
+      
+      if (category === 'Tùy chỉnh') {
+          showCustomForm();
+          return;
+      }
+      
+      contentDiv.innerHTML = `
+        <div style="text-align: center; padding: 40px;">
+          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+          <p style="margin-top: 16px;">Đang tải...</p>
+        </div>
+      `;
+      
+      if (allItems.length === 0) {
+          await fetchAllItems();
+      }
+      
+      let items = getItemsByCategory(category);
+      
+      if (items.length === 0) {
+          contentDiv.innerHTML = `
+            <div style="text-align: center; padding: 40px;">
+              <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: var(--warning);"></i>
+              <p style="margin-top: 16px;">Không có dữ liệu cho danh mục này.</p>
+            </div>
+          `;
+          return;
+      }
+      
+      let list = items.map((item, idx) => 
+        `<li onclick="selectItem(${idx}, '${category}')">
+          <i class="${item.Icon} item-icon"></i>
+          <span class="item-name">${item.Name}</span>
+          <span class="item-price">${parseInt(item.Price_VND).toLocaleString()} VND</span>
+        </li>`
+      ).join('');
+      
+      contentDiv.innerHTML = `<ul class="item-list">${list}</ul>`;
+      
+      // Lưu items hiện tại
+      window.currentCategoryItems = items;
+    }
+
+    function selectItem(idx, category) {
+      if (window.currentCategoryItems && window.currentCategoryItems[idx]) {
+          addItemToTable(window.currentCategoryItems[idx]);
+          closePopup();
+      }
+    }
+
+    function showCustomForm() {
+      let contentDiv = document.getElementById('categoryContent');
+      if (!contentDiv) return;
+      
+      contentDiv.innerHTML = `
+        <div style="max-width: 600px; margin: 0 auto;">
+          <div class="form-group">
+            <label class="form-label">
+              <i class="fas fa-tag"></i> Tên hạng mục:
+            </label>
+            <input type="text" id="customItemName" class="form-input" placeholder="Nhập tên hạng mục">
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
+            <div class="form-group">
+              <label class="form-label">Giá cho 8 khách:</label>
+              <input type="number" id="customPrice8" class="form-input" placeholder="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Giá cho 10 khách:</label>
+              <input type="number" id="customPrice10" class="form-input" placeholder="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Giá cho 15 khách:</label>
+              <input type="number" id="customPrice15" class="form-input" placeholder="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Giá cho 20 khách:</label>
+              <input type="number" id="customPrice20" class="form-input" placeholder="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Giá cho 25 khách:</label>
+              <input type="number" id="customPrice25" class="form-input" placeholder="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Giá cho 30 khách:</label>
+              <input type="number" id="customPrice30" class="form-input" placeholder="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Giá cho 35 khách:</label>
+              <input type="number" id="customPrice35" class="form-input" placeholder="0">
+            </div>
+          </div>
+          <div style="text-align: center; margin-top: 24px;">
+            <button class="btn btn-primary" onclick="addCustomItemFromForm()">
+              <i class="fas fa-plus"></i> Thêm hạng mục
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function addCustomItemFromForm() {
+      let itemName = document.getElementById('customItemName').value;
       let prices = [
-          document.getElementById('price8').value || 0,
-          document.getElementById('price10').value || 0,
-          document.getElementById('price15').value || 0,
-          document.getElementById('price20').value || 0,
-          document.getElementById('price25').value || 0,
-          document.getElementById('price30').value || 0,
-          document.getElementById('price35').value || 0
+          document.getElementById('customPrice8').value || 0,
+          document.getElementById('customPrice10').value || 0,
+          document.getElementById('customPrice15').value || 0,
+          document.getElementById('customPrice20').value || 0,
+          document.getElementById('customPrice25').value || 0,
+          document.getElementById('customPrice30').value || 0,
+          document.getElementById('customPrice35').value || 0
       ];
       
       if (itemName.trim() === '') {
@@ -786,52 +1300,33 @@ Copy
       }
     }
 
-    function showMealPopup(meals) {
-      if (!meals || meals.length === 0) {
-          alert("Không có dữ liệu bữa ăn!");
-          return;
-      }
-      
-      let list = meals.map((m, idx) => 
-        `<li onclick="selectMeal(${idx})">
-          <i class="${m.Icon}" style="font-size:1.2em;color:#FF812B;min-width:24px"></i>
-          <span>${m.Name}</span>
-          <span style="margin-left:auto;font-weight:bold;color:#BC430D">${parseInt(m.Price_VND).toLocaleString()} VND</span>
-        </li>`
-      ).join('');
-      
-      // Lưu dữ liệu vào window
-      window.currentMeals = meals;
-      
-      let div = document.createElement('div');
-      div.className = "popup-outer";
-      div.innerHTML = `
-        <div class="popup-inner">
-          <h3>Chọn Bữa ăn từ Google Sheet</h3>
-          <ul>${list}</ul>
-          <button onclick="closePopup()">Đóng</button>
-        </div>`;
-      document.body.appendChild(div);
-    }
-
-    function selectMeal(idx) {
-      if (window.currentMeals && window.currentMeals[idx]) {
-          addMealRowToTable(window.currentMeals[idx]);
-          closePopup();
-      }
-    }
-
     function closePopup() {
       let popup = document.querySelector('.popup-outer');
       if (popup) {
-          popup.remove();
+          popup.style.animation = 'fadeOut 0.2s ease';
+          setTimeout(() => {
+              popup.remove();
+          }, 200);
       }
-      delete window.currentMeals;
+      delete window.currentCategoryItems;
     }
+
+    // Add fadeOut animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
 
     // Khởi tạo khi trang load
     document.addEventListener("DOMContentLoaded", function() {
       console.log("DOM loaded");
+      
+      // Load tất cả items từ Google Sheets
+      fetchAllItems();
       
       // Thêm listeners cho các ô có thể chỉnh sửa
       document.querySelectorAll('#mainTable tbody tr[data-price]').forEach(row => {
@@ -841,8 +1336,11 @@ Copy
           let removeBtn = row.querySelector('.remove-btn');
           if (removeBtn) {
               removeBtn.addEventListener('click', function() {
-                  row.remove();
-                  updateTotal();
+                  row.style.animation = 'fadeOut 0.3s ease';
+                  setTimeout(() => {
+                      row.remove();
+                      updateTotal();
+                  }, 300);
               });
           }
       });
@@ -860,34 +1358,21 @@ Copy
       document.querySelectorAll('.add-btn').forEach(btn => {
         btn.addEventListener('click', async function() {
           console.log("Button clicked:", btn.dataset.type);
-          
-          if (btn.dataset.type === "meal") {
-            btn.disabled = true;
-            btn.textContent = "Đang tải...";
-            
-            try {
-              let meals = await fetchMeals();
-              if (meals.length > 0) {
-                showMealPopup(meals);
-              } else {
-                alert("Không tìm thấy dữ liệu bữa ăn trong Google Sheet!");
-              }
-            } catch (error) {
-              console.error("Error:", error);
-              alert("Lỗi khi tải dữ liệu từ Google Sheet!");
-            }
-            
-            btn.disabled = false;
-            btn.textContent = "+ Thêm hạng mục";
-          } else {
-            showAddItemPopup();
-          }
+          showCategoryPopup();
         });
       });
 
       // Event listener cho nút xuất Excel
       document.querySelector('.export-btn').addEventListener('click', function() {
-        alert('Tính năng xuất Excel sẽ được phát triển sau!');
+        // Add loading state
+        this.disabled = true;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xuất...';
+        
+        setTimeout(() => {
+          this.disabled = false;
+          this.innerHTML = '<i class="fas fa-file-excel"></i> Xuất Excel';
+          alert('Tính năng xuất Excel sẽ được phát triển sau!');
+        }, 1500);
       });
     });
   </script>
