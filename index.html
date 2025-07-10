@@ -64,11 +64,24 @@ Copy
       border: 1px solid var(--border);
     }
 
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
     .title {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       font-weight: 700;
-      text-align: center;
-      margin-bottom: 8px;
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -76,24 +89,28 @@ Copy
     }
 
     .subtitle {
-      text-align: center;
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: var(--text-secondary);
-      margin-bottom: 24px;
+      margin-top: 4px;
+    }
+
+    .program-title-container {
+      flex: 1;
+      max-width: 500px;
     }
 
     .program-title {
-      text-align: center;
-      font-size: 1.3rem;
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1.1rem;
       font-weight: 600;
       color: var(--primary);
-      margin-bottom: 24px;
-      padding: 16px;
       background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
-      border-radius: var(--radius-lg);
       border: 2px solid var(--primary-light);
+      border-radius: var(--radius-lg);
       cursor: pointer;
       transition: all 0.2s ease;
+      text-align: center;
     }
 
     .program-title:hover {
@@ -117,7 +134,6 @@ Copy
     .actions {
       display: flex;
       gap: 12px;
-      justify-content: center;
       flex-wrap: wrap;
     }
 
@@ -125,15 +141,16 @@ Copy
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 12px 24px;
+      padding: 12px 20px;
       border: none;
       border-radius: var(--radius);
       font-weight: 500;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       cursor: pointer;
       transition: all 0.2s ease;
       text-decoration: none;
       box-shadow: var(--shadow-sm);
+      white-space: nowrap;
     }
 
     .btn-primary {
@@ -168,6 +185,17 @@ Copy
       background: var(--primary);
       color: white;
       border-color: var(--primary);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #16a34a;
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
     }
 
     /* Table Styles */
@@ -421,6 +449,11 @@ Copy
       box-shadow: var(--shadow-xl);
     }
 
+    /* Hidden file input */
+    .file-input {
+      display: none;
+    }
+
     /* Popup styles */
     .popup-outer {
       position: fixed;
@@ -563,6 +596,35 @@ Copy
       color: var(--secondary);
     }
 
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--success);
+      color: white;
+      padding: 16px 24px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      z-index: 1001;
+      animation: slideInRight 0.3s ease;
+    }
+
+    .toast.error {
+      background: var(--error);
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .container {
@@ -573,8 +635,22 @@ Copy
         padding: 24px 20px;
       }
       
+      .header-top {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .brand {
+        justify-content: center;
+        margin-bottom: 16px;
+      }
+      
       .title {
-        font-size: 2rem;
+        font-size: 1.8rem;
+      }
+      
+      .actions {
+        justify-content: center;
       }
       
       .table-container {
@@ -626,37 +702,48 @@ Copy
   <div class="container">
     <!-- Header -->
     <div class="header">
-      <h1 class="title">
-        <i class="fas fa-ship"></i>
-        GreenSeaTour
-      </h1>
-      <p class="subtitle">Bảng Báo Giá Chương Trình Du Lịch</p>
-      
-      <!-- Editable Program Title -->
-      <div class="program-title" onclick="editProgramTitle(this)">
-        <i class="fas fa-edit" style="margin-right: 8px; font-size: 0.9em;"></i>
-        <span id="programTitleText">Hồ Chí Minh - Mũi Né 3 ngày 2 đêm</span>
+      <div class="header-top">
+        <div class="brand">
+          <div>
+            <h1 class="title">
+              <i class="fas fa-ship"></i>
+              GreenSeaTour
+            </h1>
+            <p class="subtitle">Bảng Báo Giá Chương Trình Du Lịch</p>
+          </div>
+        </div>
+        
+        <div class="program-title-container">
+          <div class="program-title" onclick="editProgramTitle(this)">
+            <i class="fas fa-edit" style="margin-right: 8px; font-size: 0.9em;"></i>
+            <span id="programTitleText">Hồ Chí Minh - Mũi Né 3 ngày 2 đêm</span>
+          </div>
+        </div>
       </div>
       
       <div class="actions">
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" onclick="createNewTour()">
           <i class="fas fa-plus"></i>
           Tạo Tour Mới
         </button>
-        <button class="btn btn-outline">
+        <button class="btn btn-outline" onclick="importFromExcel()">
           <i class="fas fa-file-excel"></i>
           Nhập từ Excel
         </button>
-        <button class="btn btn-outline">
+        <button class="btn btn-outline" onclick="exportToJson()">
           <i class="fas fa-download"></i>
-          Tải Tour LÊSON
+          Tải Tour JSON
         </button>
-        <button class="btn btn-secondary">
-          <i class="fas fa-save"></i>
-          Lưu Tour LÊSON
+        <button class="btn btn-secondary" onclick="importFromJson()">
+          <i class="fas fa-upload"></i>
+          Nhập Tour JSON
         </button>
       </div>
     </div>
+
+    <!-- Hidden file inputs -->
+    <input type="file" id="excelFileInput" class="file-input" accept=".xlsx,.xls" onchange="handleExcelFile(event)">
+    <input type="file" id="jsonFileInput" class="file-input" accept=".json" onchange="handleJsonFile(event)">
 
     <!-- Main Table -->
     <div class="table-container">
@@ -876,7 +963,7 @@ Copy
       </div>
     </div>
 
-    <button class="export-btn">
+    <button class="export-btn" onclick="exportToExcel()">
       <i class="fas fa-file-excel"></i>
       Xuất Excel
     </button>
@@ -889,6 +976,21 @@ Copy
     let currentCategory = 'Bữa ăn';
     let currentDayRow = null;
 
+    // Toast notification function
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        ${message}
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
     // Function to edit program title
     function editProgramTitle(element) {
       let textSpan = element.querySelector('#programTitleText');
@@ -897,7 +999,6 @@ Copy
       let input = document.createElement('input');
       input.type = 'text';
       input.value = currentText;
-      input.className = 'program-title-input';
       input.style.background = 'transparent';
       input.style.border = 'none';
       input.style.fontSize = 'inherit';
@@ -928,6 +1029,214 @@ Copy
           saveTitle();
         }
       });
+    }
+
+    // New tour functions
+    function createNewTour() {
+      if (confirm('Tạo tour mới sẽ xóa tất cả dữ liệu hiện tại. Bạn có chắc chắn?')) {
+        // Reset all data
+        document.getElementById('programTitleText').textContent = 'Chương trình du lịch mới';
+        
+        // Clear table except header
+        let tbody = document.querySelector('#mainTable tbody');
+        tbody.innerHTML = `
+          <tr>
+            <td class="day-header">
+              <i class="fas fa-calendar-day"></i>
+              <strong>Ngày 1</strong>
+            </td>
+            <td colspan="7"></td>
+            <td><button class="add-btn" data-type="day"><i class="fas fa-plus"></i> Thêm hạng mục</button></td>
+          </tr>
+          <tr class="summary-row">
+            <td style="text-align:left;">
+              <i class="fas fa-calculator"></i>
+              <strong>Tổng (VND)</strong>
+            </td>
+            <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+            <td></td>
+          </tr>
+          <tr class="usd-row">
+            <td style="text-align:left;">
+              <i class="fas fa-dollar-sign"></i>
+              <strong>Báo giá (USD)</strong>
+            </td>
+            <td>$0</td><td>$0</td><td>$0</td><td>$0</td><td>$0</td><td>$0</td><td>$0</td>
+            <td></td>
+          </tr>
+        `;
+        
+        // Re-add event listeners
+        initializeEventListeners();
+        dayCounter = 1;
+        showToast('Đã tạo tour mới thành công!');
+      }
+    }
+
+    function importFromExcel() {
+      document.getElementById('excelFileInput').click();
+    }
+
+    function handleExcelFile(event) {
+      const file = event.target.files[0];
+      if (file) {
+        showToast('Chức năng nhập Excel đang được phát triển!', 'error');
+        // TODO: Implement Excel import functionality
+        // You would need a library like SheetJS to parse Excel files
+      }
+    }
+
+    function exportToJson() {
+      const tourData = {
+        title: document.getElementById('programTitleText').textContent,
+        exchangeRate: document.getElementById('rate').value,
+        items: [],
+        settings: {
+          profitMargins: {
+            '8-9': document.querySelector('.chip').nextElementSibling.value,
+            '10-14': document.querySelectorAll('.chip')[1].nextElementSibling.value,
+            '15-19': document.querySelectorAll('.chip')[2].nextElementSibling.value,
+            '20-34': document.querySelectorAll('.chip')[3].nextElementSibling.value
+          }
+        }
+      };
+      
+      // Collect all items from table
+      document.querySelectorAll('#mainTable tbody tr[data-price]').forEach(row => {
+        const cells = row.querySelectorAll('td');
+        const prices = row.getAttribute('data-price').split(',');
+        tourData.items.push({
+          name: cells[0].textContent.trim(),
+          prices: prices.map(p => parseInt(p))
+        });
+      });
+      
+      const dataStr = JSON.stringify(tourData, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `tour_${new Date().toISOString().split('T')[0]}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+      
+      showToast('Đã tải xuống file JSON thành công!');
+    }
+
+    function importFromJson() {
+      document.getElementById('jsonFileInput').click();
+    }
+
+    function handleJsonFile(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            const tourData = JSON.parse(e.target.result);
+            
+            // Load title
+            if (tourData.title) {
+              document.getElementById('programTitleText').textContent = tourData.title;
+            }
+            
+            // Load exchange rate
+            if (tourData.exchangeRate) {
+              document.getElementById('rate').value = tourData.exchangeRate;
+            }
+            
+            // Load settings
+            if (tourData.settings && tourData.settings.profitMargins) {
+              const margins = tourData.settings.profitMargins;
+              const chips = document.querySelectorAll('.chip');
+              if (margins['8-9']) chips[0].nextElementSibling.value = margins['8-9'];
+              if (margins['10-14']) chips[1].nextElementSibling.value = margins['10-14'];
+              if (margins['15-19']) chips[2].nextElementSibling.value = margins['15-19'];
+              if (margins['20-34']) chips[3].nextElementSibling.value = margins['20-34'];
+            }
+            
+            // Clear current table
+            let tbody = document.querySelector('#mainTable tbody');
+            tbody.innerHTML = `
+              <tr>
+                <td class="day-header">
+                  <i class="fas fa-calendar-day"></i>
+                  <strong>Ngày 1</strong>
+                </td>
+                <td colspan="7"></td>
+                <td><button class="add-btn" data-type="day"><i class="fas fa-plus"></i> Thêm hạng mục</button></td>
+              </tr>
+            `;
+            
+            // Load items
+            if (tourData.items && tourData.items.length > 0) {
+              tourData.items.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.setAttribute('data-price', item.prices.join(','));
+                tr.innerHTML = `
+                  <td style="text-align:left;">
+                    <i class="fas fa-cog" style="color: var(--primary); margin-right: 8px;"></i>${item.name}
+                  </td>
+                  <td class="editable-cell">${item.prices[0].toLocaleString()}</td>
+                  <td class="editable-cell">${item.prices[1].toLocaleString()}</td>
+                  <td class="editable-cell">${item.prices[2].toLocaleString()}</td>
+                  <td class="editable-cell">${item.prices[3].toLocaleString()}</td>
+                  <td class="editable-cell">${item.prices[4].toLocaleString()}</td>
+                  <td class="editable-cell">${item.prices[5].toLocaleString()}</td>
+                  <td class="editable-cell">${item.prices[6].toLocaleString()}</td>
+                  <td><button class="remove-btn"><i class="fas fa-trash"></i></button></td>
+                `;
+                
+                let summaryRow = tbody.querySelector('.summary-row');
+                if (summaryRow) {
+                  tbody.insertBefore(tr, summaryRow);
+                } else {
+                  tbody.appendChild(tr);
+                }
+                
+                addEditableListeners(tr);
+                tr.querySelector('.remove-btn').addEventListener('click', function() {
+                  tr.remove();
+                  updateTotal();
+                });
+              });
+            }
+            
+            // Add summary rows
+            tbody.innerHTML += `
+              <tr class="summary-row">
+                <td style="text-align:left;">
+                  <i class="fas fa-calculator"></i>
+                  <strong>Tổng (VND)</strong>
+                </td>
+                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                <td></td>
+              </tr>
+              <tr class="usd-row">
+                <td style="text-align:left;">
+                  <i class="fas fa-dollar-sign"></i>
+                  <strong>Báo giá (USD)</strong>
+                </td>
+                <td>$0</td><td>$0</td><td>$0</td><td>$0</td><td>$0</td><td>$0</td><td>$0</td>
+                <td></td>
+              </tr>
+            `;
+            
+            initializeEventListeners();
+            updateTotal();
+            showToast('Đã nhập tour từ JSON thành công!');
+            
+          } catch (error) {
+            showToast('Lỗi: File JSON không hợp lệ!', 'error');
+          }
+        };
+        reader.readAsText(file);
+      }
+    }
+
+    function exportToExcel() {
+      showToast('Chức năng xuất Excel đang được phát triển!', 'error');
+      // TODO: Implement Excel export functionality
     }
 
     async function fetchAllItems() {
@@ -1378,20 +1687,8 @@ Copy
       currentDayRow = null;
     }
 
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: 0; }
-      }
-    `;
-    document.head.appendChild(style);
-
-    document.addEventListener("DOMContentLoaded", function() {
-      console.log("DOM loaded");
-      
-      fetchAllItems();
-      
+    function initializeEventListeners() {
+      // Event listeners for existing items
       document.querySelectorAll('#mainTable tbody tr[data-price]').forEach(row => {
           addEditableListeners(row);
           
@@ -1407,31 +1704,33 @@ Copy
           }
       });
       
-      updateTotal();
-      
-      document.getElementById('rate').addEventListener('input', updateTotal);
-      
-      document.getElementById('addDayBtn').addEventListener('click', addNewDay);
-      
+      // Event listeners for add buttons
       document.querySelectorAll('.add-btn[data-type="day"]').forEach(btn => {
         btn.addEventListener('click', async function() {
-          console.log("Button clicked:", btn.dataset.type);
-          
           currentDayRow = btn.closest('tr');
           showCategoryPopup();
         });
       });
+    }
 
-      document.querySelector('.export-btn').addEventListener('click', function() {
-        this.disabled = true;
-        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xuất...';
-        
-        setTimeout(() => {
-          this.disabled = false;
-          this.innerHTML = '<i class="fas fa-file-excel"></i> Xuất Excel';
-          alert('Tính năng xuất Excel sẽ được phát triển sau!');
-        }, 1500);
-      });
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    document.addEventListener("DOMContentLoaded", function() {
+      console.log("DOM loaded");
+      
+      fetchAllItems();
+      initializeEventListeners();
+      updateTotal();
+      
+      document.getElementById('rate').addEventListener('input', updateTotal);
+      document.getElementById('addDayBtn').addEventListener('click', addNewDay);
     });
   </script>
 </body>
