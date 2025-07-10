@@ -257,6 +257,61 @@ Copy
       cursor: pointer;
       float: right;
     }
+
+    /* Editable cells */
+    .editable-cell {
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .editable-cell:hover {
+      background: #045a42 !important;
+    }
+    .editable-cell input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text-light);
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    /* Form styles */
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--accent3);
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-secondary {
+      background: #ccc;
+      color: #333;
+    }
   </style>
 </head>
 <body>
@@ -270,7 +325,7 @@ Copy
       <button>Lưu Tour LÊSON</button>
     </div>
 
-    <table>
+    <table id="mainTable">
       <thead>
         <tr>
           <th>DANH MỤC</th>
@@ -292,21 +347,36 @@ Copy
         </tr>
         <tr data-price="1312500,1050000,766667,650000,520000,433333,371429">
           <td style="text-align:left;">xe HCM - Mũi Né 3 ngày</td>
-          <td>1,312,500</td><td>1,050,000</td><td>766,667</td>
-          <td>650,000</td><td>520,000</td><td>433,333</td><td>371,429</td>
-          <td></td>
+          <td class="editable-cell">1,312,500</td>
+          <td class="editable-cell">1,050,000</td>
+          <td class="editable-cell">766,667</td>
+          <td class="editable-cell">650,000</td>
+          <td class="editable-cell">520,000</td>
+          <td class="editable-cell">433,333</td>
+          <td class="editable-cell">371,429</td>
+          <td><button class="remove-btn">Xóa</button></td>
         </tr>
         <tr data-price="281250,225000,150000,112500,90000,84848,75000">
           <td style="text-align:left;">hdv</td>
-          <td>281,250</td><td>225,000</td><td>150,000</td>
-          <td>112,500</td><td>90,000</td><td>84,848</td><td>75,000</td>
-          <td></td>
+          <td class="editable-cell">281,250</td>
+          <td class="editable-cell">225,000</td>
+          <td class="editable-cell">150,000</td>
+          <td class="editable-cell">112,500</td>
+          <td class="editable-cell">90,000</td>
+          <td class="editable-cell">84,848</td>
+          <td class="editable-cell">75,000</td>
+          <td><button class="remove-btn">Xóa</button></td>
         </tr>
         <tr data-price="15000,15000,15000,15000,15000,15000,15000">
           <td style="text-align:left;">nước uống</td>
-          <td>15,000</td><td>15,000</td><td>15,000</td>
-          <td>15,000</td><td>15,000</td><td>15,000</td><td>15,000</td>
-          <td></td>
+          <td class="editable-cell">15,000</td>
+          <td class="editable-cell">15,000</td>
+          <td class="editable-cell">15,000</td>
+          <td class="editable-cell">15,000</td>
+          <td class="editable-cell">15,000</td>
+          <td class="editable-cell">15,000</td>
+          <td class="editable-cell">15,000</td>
+          <td><button class="remove-btn">Xóa</button></td>
         </tr>
         <tr>
           <td style="text-align:left;"><b>Bữa ăn</b></td>
@@ -315,29 +385,44 @@ Copy
         </tr>
         <tr data-price="150000,150000,150000,150000,150000,150000,150000">
           <td style="text-align:left;">ăn trưa Cao Phát</td>
-          <td>150,000</td><td>150,000</td><td>150,000</td>
-          <td>150,000</td><td>150,000</td><td>150,000</td><td>150,000</td>
-          <td></td>
+          <td class="editable-cell">150,000</td>
+          <td class="editable-cell">150,000</td>
+          <td class="editable-cell">150,000</td>
+          <td class="editable-cell">150,000</td>
+          <td class="editable-cell">150,000</td>
+          <td class="editable-cell">150,000</td>
+          <td class="editable-cell">150,000</td>
+          <td><button class="remove-btn">Xóa</button></td>
         </tr>
         <tr class="summary-row">
           <td style="text-align:left;">Tổng (VND)</td>
-          <td>1,758,750</td><td>1,440,000</td><td>1,081,667</td>
-          <td>927,500</td><td>775,000</td><td>683,181</td><td>611,429</td>
+          <td>1,758,750</td>
+          <td>1,440,000</td>
+          <td>1,081,667</td>
+          <td>927,500</td>
+          <td>775,000</td>
+          <td>683,181</td>
+          <td>611,429</td>
           <td></td>
         </tr>
         <tr class="usd-row">
           <td style="text-align:left;">Báo giá (USD)</td>
-          <td>$69</td><td>$56</td><td>$42</td>
-          <td>$36</td><td>$30</td><td>$27</td><td>$24</td>
+          <td>$69</td>
+          <td>$56</td>
+          <td>$42</td>
+          <td>$36</td>
+          <td>$30</td>
+          <td>$27</td>
+          <td>$24</td>
           <td></td>
         </tr>
       </tbody>
     </table>
 
-    <button class="add-btn" style="display:block;margin:0 auto 18px auto;">+ Thêm Ngày Mới</button>
+    <button class="add-btn" id="addDayBtn" style="display:block;margin:0 auto 18px auto;">+ Thêm Ngày Mới</button>
 
     <div class="section-title">Giá Tour Theo Số Lượng Khách (03/09-30/11/2025)</div>
-    <table>
+    <table id="priceTable">
       <thead>
         <tr>
           <th>THỜI GIAN</th>
@@ -398,6 +483,8 @@ Copy
   </div>
 
   <script>
+    let dayCounter = 1;
+
     async function fetchMeals() {
       try {
         const url = "https://docs.google.com/spreadsheets/d/1RU3jggSUKWbi45HYU2UR3S3yBjdpdArK5obL6257lgY/gviz/tq?tqx=out:json&sheet=SuggestedItems";
@@ -422,7 +509,7 @@ Copy
     }
 
     function addMealRowToTable(meal) {
-      let table = document.querySelector('table tbody');
+      let table = document.querySelector('#mainTable tbody');
       if (!table) return;
       
       let insertIndex = -1;
@@ -447,13 +534,13 @@ Copy
         <td style="text-align:left;">
           <i class="${meal.Icon}" style="color:#FF812B; margin-right: 8px;"></i>${meal.Name}
         </td>
-        <td>${price.toLocaleString()}</td>
-        <td>${price.toLocaleString()}</td>
-        <td>${price.toLocaleString()}</td>
-        <td>${price.toLocaleString()}</td>
-        <td>${price.toLocaleString()}</td>
-        <td>${price.toLocaleString()}</td>
-        <td>${price.toLocaleString()}</td>
+        <td class="editable-cell">${price.toLocaleString()}</td>
+        <td class="editable-cell">${price.toLocaleString()}</td>
+        <td class="editable-cell">${price.toLocaleString()}</td>
+        <td class="editable-cell">${price.toLocaleString()}</td>
+        <td class="editable-cell">${price.toLocaleString()}</td>
+        <td class="editable-cell">${price.toLocaleString()}</td>
+        <td class="editable-cell">${price.toLocaleString()}</td>
         <td><button class="remove-btn">Xóa</button></td>
       `;
       
@@ -470,8 +557,181 @@ Copy
           updateTotal();
       });
       
+      // Thêm event listener cho các ô có thể chỉnh sửa
+      addEditableListeners(tr);
+      
       // Cập nhật tổng
       updateTotal();
+    }
+
+    function addCustomItem(itemName, prices) {
+      let table = document.querySelector('#mainTable tbody');
+      if (!table) return;
+      
+      let tr = document.createElement('tr');
+      tr.setAttribute('data-price', prices.join(','));
+      tr.innerHTML = `
+        <td style="text-align:left;">${itemName}</td>
+        <td class="editable-cell">${parseInt(prices[0]).toLocaleString()}</td>
+        <td class="editable-cell">${parseInt(prices[1]).toLocaleString()}</td>
+        <td class="editable-cell">${parseInt(prices[2]).toLocaleString()}</td>
+        <td class="editable-cell">${parseInt(prices[3]).toLocaleString()}</td>
+        <td class="editable-cell">${parseInt(prices[4]).toLocaleString()}</td>
+        <td class="editable-cell">${parseInt(prices[5]).toLocaleString()}</td>
+        <td class="editable-cell">${parseInt(prices[6]).toLocaleString()}</td>
+        <td><button class="remove-btn">Xóa</button></td>
+      `;
+      
+      // Insert trước dòng tổng
+      let summaryRow = table.querySelector('.summary-row');
+      if (summaryRow) {
+          table.insertBefore(tr, summaryRow);
+      } else {
+          table.appendChild(tr);
+      }
+      
+      // Thêm event listeners
+      tr.querySelector('.remove-btn').addEventListener('click', function() {
+          tr.remove();
+          updateTotal();
+      });
+      
+      addEditableListeners(tr);
+      updateTotal();
+    }
+
+    function addEditableListeners(row) {
+      row.querySelectorAll('.editable-cell').forEach((cell, index) => {
+          cell.addEventListener('click', function() {
+              if (cell.querySelector('input')) return;
+              
+              let currentValue = cell.textContent.replace(/,/g, '');
+              let input = document.createElement('input');
+              input.type = 'number';
+              input.value = currentValue;
+              input.style.width = '100%';
+              input.style.background = 'transparent';
+              input.style.border = 'none';
+              input.style.color = 'var(--text-light)';
+              input.style.textAlign = 'center';
+              
+              cell.innerHTML = '';
+              cell.appendChild(input);
+              input.focus();
+              
+              function saveValue() {
+                  let newValue = parseInt(input.value) || 0;
+                  cell.innerHTML = newValue.toLocaleString();
+                  
+                  // Cập nhật data-price
+                  let prices = row.getAttribute('data-price').split(',');
+                  prices[index] = newValue.toString();
+                  row.setAttribute('data-price', prices.join(','));
+                  
+                  updateTotal();
+              }
+              
+              input.addEventListener('blur', saveValue);
+              input.addEventListener('keypress', function(e) {
+                  if (e.key === 'Enter') {
+                      saveValue();
+                  }
+              });
+          });
+      });
+    }
+
+    function addNewDay() {
+      dayCounter++;
+      let table = document.querySelector('#mainTable tbody');
+      if (!table) return;
+      
+      let tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="text-align:left;"><b>Ngày ${dayCounter}</b></td>
+        <td colspan="7"></td>
+        <td><button class="add-btn" data-type="other">+ Thêm hạng mục</button></td>
+      `;
+      
+      // Insert trước dòng tổng
+      let summaryRow = table.querySelector('.summary-row');
+      if (summaryRow) {
+          table.insertBefore(tr, summaryRow);
+      } else {
+          table.appendChild(tr);
+      }
+      
+      // Thêm event listener cho nút thêm hạng mục
+      tr.querySelector('.add-btn').addEventListener('click', function() {
+          showAddItemPopup();
+      });
+    }
+
+    function showAddItemPopup() {
+      let div = document.createElement('div');
+      div.className = "popup-outer";
+      div.innerHTML = `
+        <div class="popup-inner">
+          <h3>Thêm hạng mục mới</h3>
+          <div class="form-group">
+            <label>Tên hạng mục:</label>
+            <input type="text" id="itemName" placeholder="Nhập tên hạng mục">
+          </div>
+          <div class="form-group">
+            <label>Giá cho 8 khách:</label>
+            <input type="number" id="price8" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Giá cho 10 khách:</label>
+            <input type="number" id="price10" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Giá cho 15 khách:</label>
+            <input type="number" id="price15" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Giá cho 20 khách:</label>
+            <input type="number" id="price20" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Giá cho 25 khách:</label>
+            <input type="number" id="price25" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Giá cho 30 khách:</label>
+            <input type="number" id="price30" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Giá cho 35 khách:</label>
+            <input type="number" id="price35" placeholder="0">
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-secondary" onclick="closePopup()">Hủy</button>
+            <button class="btn btn-primary" onclick="addNewItem()">Thêm</button>
+          </div>
+        </div>`;
+      document.body.appendChild(div);
+    }
+
+    function addNewItem() {
+      let itemName = document.getElementById('itemName').value;
+      let prices = [
+          document.getElementById('price8').value || 0,
+          document.getElementById('price10').value || 0,
+          document.getElementById('price15').value || 0,
+          document.getElementById('price20').value || 0,
+          document.getElementById('price25').value || 0,
+          document.getElementById('price30').value || 0,
+          document.getElementById('price35').value || 0
+      ];
+      
+      if (itemName.trim() === '') {
+          alert('Vui lòng nhập tên hạng mục!');
+          return;
+      }
+      
+      addCustomItem(itemName, prices);
+      closePopup();
     }
 
     function updateTotal() {
@@ -479,7 +739,7 @@ Copy
       let exchangeRate = parseFloat(document.getElementById('rate').value) || 25500;
       
       // Tính tổng từ tất cả các dòng có data-price
-      let rows = document.querySelectorAll('table tbody tr[data-price]');
+      let rows = document.querySelectorAll('#mainTable tbody tr[data-price]');
       rows.forEach(row => {
           let prices = row.getAttribute('data-price').split(',');
           prices.forEach((price, index) => {
@@ -511,7 +771,7 @@ Copy
       }
       
       // Cập nhật bảng giá tour
-      let tourTable = document.querySelectorAll('table')[1];
+      let tourTable = document.getElementById('priceTable');
       if (tourTable) {
           let tourRow = tourTable.querySelector('tbody tr');
           if (tourRow) {
@@ -573,11 +833,28 @@ Copy
     document.addEventListener("DOMContentLoaded", function() {
       console.log("DOM loaded");
       
+      // Thêm listeners cho các ô có thể chỉnh sửa
+      document.querySelectorAll('#mainTable tbody tr[data-price]').forEach(row => {
+          addEditableListeners(row);
+          
+          // Thêm listener cho nút xóa
+          let removeBtn = row.querySelector('.remove-btn');
+          if (removeBtn) {
+              removeBtn.addEventListener('click', function() {
+                  row.remove();
+                  updateTotal();
+              });
+          }
+      });
+      
       // Cập nhật tổng ban đầu
       updateTotal();
       
       // Thêm event listener cho tỷ giá
       document.getElementById('rate').addEventListener('input', updateTotal);
+      
+      // Event listener cho nút thêm ngày mới
+      document.getElementById('addDayBtn').addEventListener('click', addNewDay);
       
       // Event listener cho các nút thêm hạng mục
       document.querySelectorAll('.add-btn').forEach(btn => {
@@ -603,7 +880,7 @@ Copy
             btn.disabled = false;
             btn.textContent = "+ Thêm hạng mục";
           } else {
-            alert("Chức năng này đang phát triển.");
+            showAddItemPopup();
           }
         });
       });
