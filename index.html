@@ -398,97 +398,73 @@ async function fetchMeals() {
   return meals;
 }
 
-// Hàm thêm dòng món ăn vào bảng
+<script>
+async function fetchMeals() {
+    // (Giữ nguyên như trước)
+}
+
 function addMealRowToTable(meal) {
-    // Tìm bảng chính
     let table = document.querySelector('table tbody');
     if (!table) return;
-    // Tìm dòng chứa <b>Bữa ăn</b>
-    let rows = table.querySelectorAll('tr');
+    
     let insertIndex = -1;
+    let rows = table.querySelectorAll('tr');
+    
     for (let i = 0; i < rows.length; i++) {
         if (rows[i].querySelector('td') && rows[i].querySelector('td').innerText.trim() === "Bữa ăn") {
             insertIndex = i + 1;
             break;
         }
     }
+    
     if (insertIndex === -1) return;
-    // Tạo row mới
+    
     let tr = document.createElement('tr');
     tr.innerHTML = `
       <td style="text-align:left;">
         <i class="${meal.Icon}" style="color:#FF812B"></i> ${meal.Name}
       </td>
       <td colspan="7" style="color:#BC430D;font-weight:bold;text-align:right;">${meal.Price_VND.toLocaleString()} VND</td>
-      <td></td>
+      <td style="text-align:center;"><button class="remove-btn">Xóa</button></td>
     `;
-    // Insert row vào đúng vị trí
+    
     if (rows[insertIndex]) {
         table.insertBefore(tr, rows[insertIndex]);
     } else {
         table.appendChild(tr);
     }
+    
+    // Cập nhật tổng giá
+    updateTotal();
+    
+    // Thêm sự kiện xóa món ăn
+    tr.querySelector('.remove-btn').onclick = function() {
+        tr.remove();
+        updateTotal();
+    };
 }
 
-// Popup có thể chọn món ăn
+function updateTotal() {
+    let total = 0;
+    let rows = document.querySelectorAll('table tbody tr');
+    rows.forEach(row => {
+        let priceCell = row.querySelector('td:nth-child(2)');
+        if (priceCell) {
+            total += parseFloat(priceCell.innerText.replace(/,/g, '')) || 0;
+        }
+    });
+    document.querySelector('.summary-row td:nth-child(2)').innerText = total.toLocaleString() + ' VND';
+}
+
 function showMealPopup(meals) {
-  let list = meals.map((m, idx) => 
-    `<li style="cursor:pointer" onclick="window.selectMeal(${idx})">
-      <i class="${m.Icon}" style="font-size:1.2em;color:#FF812B;min-width:24px"></i>
-      <span>${m.Name}</span>
-      <span style="margin-left:auto;font-weight:bold;color:#BC430D">${m.Price_VND} VND</span>
-    </li>`
-  ).join('');
-  // Lưu meals ra window để onclick dùng được
-  window._mealsData = meals;
-  // Hàm chọn món ăn
-  window.selectMeal = function(idx) {
-    addMealRowToTable(window._mealsData[idx]);
-    document.querySelector('.popup-outer').remove();
-    // Xoá biến tạm
-    delete window._mealsData;
-    delete window.selectMeal;
-  }
-  let div = document.createElement('div');
-  div.className = "popup-outer";
-  div.innerHTML = `
-    <div class="popup-inner">
-      <h3>Chọn Bữa ăn từ Google Sheet</h3>
-      <ul>${list}</ul>
-      <button onclick="this.closest('.popup-outer').remove()">Đóng</button>
-    </div>`;
-  document.body.appendChild(div);
+    // (Giữ nguyên như trước)
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  // Thêm sự kiện cho nút "Thêm hạng mục" ở dòng Bữa ăn
-  document.querySelectorAll('.add-btn').forEach(btn => {
-    btn.onclick = async function() {
-      if (btn.dataset.type === "meal") {
-        btn.disabled = true;
-        btn.textContent = "Đang tải...";
-        let meals = [];
-        try {
-          meals = await fetchMeals();
-        } catch (e) {
-          alert("Không lấy được dữ liệu từ Google Sheet!");
-        }
-        btn.disabled = false;
-        btn.textContent = "+ Thêm hạng mục";
-        if(meals.length) showMealPopup(meals);
-        else alert("Sheet chưa có dữ liệu Bữa ăn!");
-      } else {
-        alert("Chức năng này đang phát triển.");
-      }
-    }
-  });
-
-  // demo alert cho nút xuất Excel
-  document.querySelector('.export-btn').onclick = function() {
-    alert('Tính năng xuất Excel sẽ được phát triển sau!');
-  }
+    // (Giữ nguyên như trước)
 });
 </script>
+
 
 
 </body>
