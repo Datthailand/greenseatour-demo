@@ -210,6 +210,15 @@ Copy
       padding: 16px !important;
     }
 
+    /* Category headers */
+    .category-header {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+      font-weight: 600 !important;
+      color: var(--warning) !important;
+      text-align: left !important;
+      padding: 16px !important;
+    }
+
     /* Editable cells */
     .editable-cell {
       cursor: pointer;
@@ -662,7 +671,7 @@ Copy
               <strong>Ngày 1</strong>
             </td>
             <td colspan="7"></td>
-            <td><button class="add-btn" data-type="other"><i class="fas fa-plus"></i> Thêm hạng mục</button></td>
+            <td><button class="add-btn" data-type="day"><i class="fas fa-plus"></i> Thêm hạng mục</button></td>
           </tr>
           <tr data-price="1312500,1050000,766667,650000,520000,433333,371429">
             <td style="text-align:left;">
@@ -707,12 +716,11 @@ Copy
             <td><button class="remove-btn"><i class="fas fa-trash"></i></button></td>
           </tr>
           <tr>
-            <td class="day-header">
+            <td class="category-header">
               <i class="fas fa-utensils"></i>
               <strong>Bữa ăn</strong>
             </td>
-            <td colspan="7"></td>
-            <td><button class="add-btn" data-type="meal"><i class="fas fa-plus"></i> Thêm hạng mục</button></td>
+            <td colspan="8"></td>
           </tr>
           <tr data-price="150000,150000,150000,150000,150000,150000,150000">
             <td style="text-align:left;">
@@ -876,6 +884,7 @@ Copy
     let dayCounter = 1;
     let allItems = [];
     let currentCategory = 'Bữa ăn';
+    let currentDayRow = null; // Biến để lưu dòng ngày hiện tại
 
     async function fetchAllItems() {
       try {
@@ -906,7 +915,7 @@ Copy
 
     function addItemToTable(item) {
       let table = document.querySelector('#mainTable tbody');
-      if (!table) return;
+      if (!table || !currentDayRow) return;
       
       let price = parseInt(item.Price_VND);
       let tr = document.createElement('tr');
@@ -925,12 +934,19 @@ Copy
         <td><button class="remove-btn"><i class="fas fa-trash"></i></button></td>
       `;
       
-      // Insert trước dòng tổng
-      let summaryRow = table.querySelector('.summary-row');
-      if (summaryRow) {
-          table.insertBefore(tr, summaryRow);
+      // Tìm vị trí để insert: sau currentDayRow và trước ngày tiếp theo hoặc category header hoặc summary
+      let insertPosition = findInsertPosition(currentDayRow);
+      
+      if (insertPosition) {
+          table.insertBefore(tr, insertPosition);
       } else {
-          table.appendChild(tr);
+          // Nếu không tìm thấy vị trí, insert trước summary row
+          let summaryRow = table.querySelector('.summary-row');
+          if (summaryRow) {
+              table.insertBefore(tr, summaryRow);
+          } else {
+              table.appendChild(tr);
+          }
       }
       
       // Add success animation
@@ -951,7 +967,7 @@ Copy
 
     function addCustomItem(itemName, prices) {
       let table = document.querySelector('#mainTable tbody');
-      if (!table) return;
+      if (!table || !currentDayRow) return;
       
       let tr = document.createElement('tr');
       tr.setAttribute('data-price', prices.join(','));
@@ -969,12 +985,19 @@ Copy
         <td><button class="remove-btn"><i class="fas fa-trash"></i></button></td>
       `;
       
-      // Insert trước dòng tổng
-      let summaryRow = table.querySelector('.summary-row');
-      if (summaryRow) {
-          table.insertBefore(tr, summaryRow);
+      // Tìm vị trí để insert: sau currentDayRow và trước ngày tiếp theo hoặc category header hoặc summary
+      let insertPosition = findInsertPosition(currentDayRow);
+      
+      if (insertPosition) {
+          table.insertBefore(tr, insertPosition);
       } else {
-          table.appendChild(tr);
+          // Nếu không tìm thấy vị trí, insert trước summary row
+          let summaryRow = table.querySelector('.summary-row');
+          if (summaryRow) {
+              table.insertBefore(tr, summaryRow);
+          } else {
+              table.appendChild(tr);
+          }
       }
       
       // Add success animation
@@ -991,6 +1014,29 @@ Copy
       
       addEditableListeners(tr);
       updateTotal();
+    }
+
+    // Hàm tìm vị trí để insert hạng mục mới
+    function findInsertPosition(dayRow) {
+      let table = document.querySelector('#mainTable tbody');
+      let rows = Array.from(table.querySelectorAll('tr'));
+      let dayRowIndex = rows.indexOf(dayRow);
+      
+      if (dayRowIndex === -1) return null;
+      
+      // Tìm dòng ngày tiếp theo hoặc category header hoặc summary row
+      for (let i = dayRowIndex + 1; i < rows.length; i++) {
+          let row = rows[i];
+          // Nếu gặp dòng ngày khác, category header hoặc summary row thì insert trước đó
+          if (row.classList.contains('summary-row') || 
+              row.classList.contains('usd-row') ||
+              row.querySelector('.day-header') ||
+              row.querySelector('.category-header')) {
+              return row;
+          }
+      }
+      
+      return null; // Insert ở cuối nếu không tìm thấy
     }
 
     function addEditableListeners(row) {
@@ -1045,7 +1091,7 @@ Copy
           <strong>Ngày ${dayCounter}</strong>
         </td>
         <td colspan="7"></td>
-        <td><button class="add-btn" data-type="other"><i class="fas fa-plus"></i> Thêm hạng mục</button></td>
+        <td><button class="add-btn" data-type="day"><i class="fas fa-plus"></i> Thêm hạng mục</button></td>
       `;
       
       // Insert trước dòng tổng
@@ -1061,6 +1107,7 @@ Copy
       
       // Thêm event listener cho nút thêm hạng mục
       tr.querySelector('.add-btn').addEventListener('click', function() {
+          currentDayRow = tr; // Lưu dòng ngày hiện tại
           showCategoryPopup();
       });
     }
@@ -1309,6 +1356,7 @@ Copy
           }, 200);
       }
       delete window.currentCategoryItems;
+      currentDayRow = null; // Reset currentDayRow
     }
 
     // Add fadeOut animation
@@ -1354,10 +1402,13 @@ Copy
       // Event listener cho nút thêm ngày mới
       document.getElementById('addDayBtn').addEventListener('click', addNewDay);
       
-      // Event listener cho các nút thêm hạng mục
-      document.querySelectorAll('.add-btn').forEach(btn => {
+      // Event listener cho các nút thêm hạng mục có sẵn (chỉ cho các dòng ngày)
+      document.querySelectorAll('.add-btn[data-type="day"]').forEach(btn => {
         btn.addEventListener('click', async function() {
           console.log("Button clicked:", btn.dataset.type);
+          
+          // Tìm dòng ngày chứa nút này
+          currentDayRow = btn.closest('tr');
           showCategoryPopup();
         });
       });
