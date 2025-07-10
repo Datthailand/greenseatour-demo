@@ -113,6 +113,21 @@ Copy
       transition: background 0.2s;
     }
 
+    .remove-btn {
+      background: #f44336;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .remove-btn:hover {
+      background: #d32f2f;
+    }
+
     .summary-row {
       background: var(--main-bg) !important;
       color: var(--accent) !important;
@@ -225,6 +240,10 @@ Copy
       gap: 10px;
       font-size: 1.05em;
       cursor: pointer;
+      transition: background 0.2s;
+    }
+    .popup-inner li:hover {
+      background: #f0f0f0;
     }
     .popup-inner li:last-child { border-bottom: none; }
     .popup-inner button {
@@ -271,19 +290,19 @@ Copy
           <td colspan="7"></td>
           <td><button class="add-btn" data-type="other">+ Thêm hạng mục</button></td>
         </tr>
-        <tr>
+        <tr data-price="1312500,1050000,766667,650000,520000,433333,371429">
           <td style="text-align:left;">xe HCM - Mũi Né 3 ngày</td>
           <td>1,312,500</td><td>1,050,000</td><td>766,667</td>
           <td>650,000</td><td>520,000</td><td>433,333</td><td>371,429</td>
           <td></td>
         </tr>
-        <tr>
+        <tr data-price="281250,225000,150000,112500,90000,84848,75000">
           <td style="text-align:left;">hdv</td>
           <td>281,250</td><td>225,000</td><td>150,000</td>
           <td>112,500</td><td>90,000</td><td>84,848</td><td>75,000</td>
           <td></td>
         </tr>
-        <tr>
+        <tr data-price="15000,15000,15000,15000,15000,15000,15000">
           <td style="text-align:left;">nước uống</td>
           <td>15,000</td><td>15,000</td><td>15,000</td>
           <td>15,000</td><td>15,000</td><td>15,000</td><td>15,000</td>
@@ -294,7 +313,7 @@ Copy
           <td colspan="7"></td>
           <td><button class="add-btn" data-type="meal">+ Thêm hạng mục</button></td>
         </tr>
-        <tr>
+        <tr data-price="150000,150000,150000,150000,150000,150000,150000">
           <td style="text-align:left;">ăn trưa Cao Phát</td>
           <td>150,000</td><td>150,000</td><td>150,000</td>
           <td>150,000</td><td>150,000</td><td>150,000</td><td>150,000</td>
@@ -302,14 +321,14 @@ Copy
         </tr>
         <tr class="summary-row">
           <td style="text-align:left;">Tổng (VND)</td>
-          <td>3,598,750</td><td>3,280,000</td><td>3,039,344</td>
-          <td>2,855,750</td><td>2,685,000</td><td>2,577,196</td><td>2,491,144</td>
+          <td>1,758,750</td><td>1,440,000</td><td>1,081,667</td>
+          <td>927,500</td><td>775,000</td><td>683,181</td><td>611,429</td>
           <td></td>
         </tr>
         <tr class="usd-row">
           <td style="text-align:left;">Báo giá (USD)</td>
-          <td>$166</td><td>$149</td><td>$138</td>
-          <td>$127</td><td>$120</td><td>$116</td><td>$113</td>
+          <td>$69</td><td>$56</td><td>$42</td>
+          <td>$36</td><td>$30</td><td>$27</td><td>$24</td>
           <td></td>
         </tr>
       </tbody>
@@ -334,12 +353,12 @@ Copy
       <tbody>
         <tr>
           <td>03/09-30/11/2025</td>
-          <td>$166</td>
-          <td>$149</td>
-          <td>$138</td>
-          <td>$127</td>
-          <td>$120</td>
-          <td>$116</td>
+          <td>$69</td>
+          <td>$56</td>
+          <td>$42</td>
+          <td>$36</td>
+          <td>$30</td>
+          <td>$27</td>
           <td>+ $25</td>
         </tr>
       </tbody>
@@ -380,20 +399,26 @@ Copy
 
   <script>
     async function fetchMeals() {
-      const url = "https://docs.google.com/spreadsheets/d/1RU3jggSUKWbi45HYU2UR3S3yBjdpdArK5obL6257lgY/gviz/tq?tqx=out:json&sheet=SuggestedItems";
-      let response = await fetch(url);
-      let text = await response.text();
-      let json = JSON.parse(text.substr(47).slice(0, -2));
-      let cols = json.table.cols.map(c => c.label.trim());
-      let data = json.table.rows.map(row => {
-          let obj = {};
-          row.c.forEach((cell, i) => {
-              obj[cols[i]] = cell ? cell.v : "";
-          });
-          return obj;
-      });
-      let meals = data.filter(row => (row.Type && row.Type.toLowerCase().includes("bữa ăn")) && row.Name);
-      return meals;
+      try {
+        const url = "https://docs.google.com/spreadsheets/d/1RU3jggSUKWbi45HYU2UR3S3yBjdpdArK5obL6257lgY/gviz/tq?tqx=out:json&sheet=SuggestedItems";
+        let response = await fetch(url);
+        let text = await response.text();
+        let json = JSON.parse(text.substr(47).slice(0, -2));
+        let cols = json.table.cols.map(c => c.label ? c.label.trim() : '');
+        let data = json.table.rows.map(row => {
+            let obj = {};
+            row.c.forEach((cell, i) => {
+                obj[cols[i]] = cell ? cell.v : "";
+            });
+            return obj;
+        });
+        let meals = data.filter(row => row.Type && row.Type.toLowerCase().includes("bữa ăn") && row.Name);
+        console.log("Meals loaded:", meals);
+        return meals;
+      } catch (error) {
+        console.error("Error fetching meals:", error);
+        return [];
+      }
     }
 
     function addMealRowToTable(meal) {
@@ -403,8 +428,10 @@ Copy
       let insertIndex = -1;
       let rows = table.querySelectorAll('tr');
       
+      // Tìm dòng "Bữa ăn" để insert sau nó
       for (let i = 0; i < rows.length; i++) {
-          if (rows[i].querySelector('td') && rows[i].querySelector('td').innerText.trim() === "Bữa ăn") {
+          let firstCell = rows[i].querySelector('td');
+          if (firstCell && firstCell.innerHTML.includes('Bữa ăn')) {
               insertIndex = i + 1;
               break;
           }
@@ -412,95 +439,179 @@ Copy
       
       if (insertIndex === -1) return;
       
+      // Tạo dòng mới với giá trị cho từng cột
+      let price = parseInt(meal.Price_VND);
       let tr = document.createElement('tr');
+      tr.setAttribute('data-price', `${price},${price},${price},${price},${price},${price},${price}`);
       tr.innerHTML = `
         <td style="text-align:left;">
-          <i class="${meal.Icon}" style="color:#FF812B"></i> ${meal.Name}
+          <i class="${meal.Icon}" style="color:#FF812B; margin-right: 8px;"></i>${meal.Name}
         </td>
-        <td colspan="7" style="color:#BC430D;font-weight:bold;text-align:right;">${meal.Price_VND.toLocaleString()} VND</td>
-        <td style="text-align:center;"><button class="remove-btn">Xóa</button></td>
+        <td>${price.toLocaleString()}</td>
+        <td>${price.toLocaleString()}</td>
+        <td>${price.toLocaleString()}</td>
+        <td>${price.toLocaleString()}</td>
+        <td>${price.toLocaleString()}</td>
+        <td>${price.toLocaleString()}</td>
+        <td>${price.toLocaleString()}</td>
+        <td><button class="remove-btn">Xóa</button></td>
       `;
       
+      // Insert vào vị trí đúng
       if (rows[insertIndex]) {
           table.insertBefore(tr, rows[insertIndex]);
       } else {
           table.appendChild(tr);
       }
       
-      // Cập nhật tổng giá
-      updateTotal();
-      
-      // Thêm sự kiện xóa món ăn
-      tr.querySelector('.remove-btn').onclick = function() {
+      // Thêm event listener cho nút xóa
+      tr.querySelector('.remove-btn').addEventListener('click', function() {
           tr.remove();
           updateTotal();
-      };
+      });
+      
+      // Cập nhật tổng
+      updateTotal();
     }
 
     function updateTotal() {
-      let total = 0;
-      let rows = document.querySelectorAll('table tbody tr');
+      let totals = [0, 0, 0, 0, 0, 0, 0]; // 7 cột giá
+      let exchangeRate = parseFloat(document.getElementById('rate').value) || 25500;
+      
+      // Tính tổng từ tất cả các dòng có data-price
+      let rows = document.querySelectorAll('table tbody tr[data-price]');
       rows.forEach(row => {
-          let priceCell = row.querySelector('td:nth-child(2)');
-          if (priceCell) {
-              total += parseFloat(priceCell.innerText.replace(/,/g, '')) || 0;
-          }
+          let prices = row.getAttribute('data-price').split(',');
+          prices.forEach((price, index) => {
+              totals[index] += parseFloat(price) || 0;
+          });
       });
-      document.querySelector('.summary-row td:nth-child(2)').innerText = total.toLocaleString() + ' VND';
+      
+      // Cập nhật dòng tổng VND
+      let summaryRow = document.querySelector('.summary-row');
+      if (summaryRow) {
+          let cells = summaryRow.querySelectorAll('td');
+          for (let i = 1; i < 8; i++) {
+              if (cells[i]) {
+                  cells[i].textContent = totals[i-1].toLocaleString();
+              }
+          }
+      }
+      
+      // Cập nhật dòng USD
+      let usdRow = document.querySelector('.usd-row');
+      if (usdRow) {
+          let cells = usdRow.querySelectorAll('td');
+          for (let i = 1; i < 8; i++) {
+              if (cells[i]) {
+                  let usdValue = Math.round(totals[i-1] / exchangeRate);
+                  cells[i].textContent = '$' + usdValue;
+              }
+          }
+      }
+      
+      // Cập nhật bảng giá tour
+      let tourTable = document.querySelectorAll('table')[1];
+      if (tourTable) {
+          let tourRow = tourTable.querySelector('tbody tr');
+          if (tourRow) {
+              let cells = tourRow.querySelectorAll('td');
+              for (let i = 1; i < 7; i++) {
+                  if (cells[i]) {
+                      let usdValue = Math.round(totals[i-1] / exchangeRate);
+                      cells[i].textContent = '$' + usdValue;
+                  }
+              }
+          }
+      }
     }
 
     function showMealPopup(meals) {
+      if (!meals || meals.length === 0) {
+          alert("Không có dữ liệu bữa ăn!");
+          return;
+      }
+      
       let list = meals.map((m, idx) => 
-        `<li style="cursor:pointer" onclick="window.selectMeal(${idx})">
+        `<li onclick="selectMeal(${idx})">
           <i class="${m.Icon}" style="font-size:1.2em;color:#FF812B;min-width:24px"></i>
           <span>${m.Name}</span>
-          <span style="margin-left:auto;font-weight:bold;color:#BC430D">${m.Price_VND} VND</span>
+          <span style="margin-left:auto;font-weight:bold;color:#BC430D">${parseInt(m.Price_VND).toLocaleString()} VND</span>
         </li>`
       ).join('');
-      window._mealsData = meals;
-      window.selectMeal = function(idx) {
-        addMealRowToTable(window._mealsData[idx]);
-        document.querySelector('.popup-outer').remove();
-        delete window._mealsData;
-        delete window.selectMeal;
-      }
+      
+      // Lưu dữ liệu vào window
+      window.currentMeals = meals;
+      
       let div = document.createElement('div');
       div.className = "popup-outer";
       div.innerHTML = `
         <div class="popup-inner">
           <h3>Chọn Bữa ăn từ Google Sheet</h3>
           <ul>${list}</ul>
-          <button onclick="this.closest('.popup-outer').remove()">Đóng</button>
+          <button onclick="closePopup()">Đóng</button>
         </div>`;
       document.body.appendChild(div);
     }
 
+    function selectMeal(idx) {
+      if (window.currentMeals && window.currentMeals[idx]) {
+          addMealRowToTable(window.currentMeals[idx]);
+          closePopup();
+      }
+    }
+
+    function closePopup() {
+      let popup = document.querySelector('.popup-outer');
+      if (popup) {
+          popup.remove();
+      }
+      delete window.currentMeals;
+    }
+
+    // Khởi tạo khi trang load
     document.addEventListener("DOMContentLoaded", function() {
+      console.log("DOM loaded");
+      
+      // Cập nhật tổng ban đầu
+      updateTotal();
+      
+      // Thêm event listener cho tỷ giá
+      document.getElementById('rate').addEventListener('input', updateTotal);
+      
+      // Event listener cho các nút thêm hạng mục
       document.querySelectorAll('.add-btn').forEach(btn => {
-        btn.onclick = async function() {
+        btn.addEventListener('click', async function() {
+          console.log("Button clicked:", btn.dataset.type);
+          
           if (btn.dataset.type === "meal") {
             btn.disabled = true;
             btn.textContent = "Đang tải...";
-            let meals = [];
+            
             try {
-              meals = await fetchMeals();
-            } catch (e) {
-              alert("Không lấy được dữ liệu từ Google Sheet!");
+              let meals = await fetchMeals();
+              if (meals.length > 0) {
+                showMealPopup(meals);
+              } else {
+                alert("Không tìm thấy dữ liệu bữa ăn trong Google Sheet!");
+              }
+            } catch (error) {
+              console.error("Error:", error);
+              alert("Lỗi khi tải dữ liệu từ Google Sheet!");
             }
+            
             btn.disabled = false;
             btn.textContent = "+ Thêm hạng mục";
-            if(meals.length) showMealPopup(meals);
-            else alert("Sheet chưa có dữ liệu Bữa ăn!");
           } else {
             alert("Chức năng này đang phát triển.");
           }
-        }
+        });
       });
 
-      // demo alert cho nút xuất Excel
-      document.querySelector('.export-btn').onclick = function() {
+      // Event listener cho nút xuất Excel
+      document.querySelector('.export-btn').addEventListener('click', function() {
         alert('Tính năng xuất Excel sẽ được phát triển sau!');
-      }
+      });
     });
   </script>
 </body>
